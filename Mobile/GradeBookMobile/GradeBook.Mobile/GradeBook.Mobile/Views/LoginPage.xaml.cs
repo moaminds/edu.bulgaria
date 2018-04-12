@@ -21,17 +21,15 @@ namespace GradeBook.Mobile.Views
             InitializeComponent();
 
             ViewModel = new LoginPageViewModel();
+        }
 
-            this.Bind(ViewModel, vm => vm.UserName, v => v.ViewModel.UserName);
-            this.Bind(ViewModel, vm => vm.Password, v => v.ViewModel.Password);
-            this.BindCommand(ViewModel, vm => vm.SaveCommand, v => v.ViewModel.SaveCommand);
-
-            this.WhenAnyValue(x => x.ViewModel.is)
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(busy =>
-                {
-                   
-                });
+        protected override void OnAppearing()
+        {
+            this.Bind(ViewModel, vm => vm.UserName, v => v.userName.Text);
+            this.Bind(ViewModel, vm => vm.Password, v => v.password.Text);
+            this.Bind(ViewModel, vm => vm.IsLoading, v => v.loading.IsVisible);
+            this.BindCommand(ViewModel, vm => vm.SaveCommand, v => v.saveCommand);
+            this.BindCommand(ViewModel, vm => vm.ResetCommand, v => v.resetCommand);
         }
 
 

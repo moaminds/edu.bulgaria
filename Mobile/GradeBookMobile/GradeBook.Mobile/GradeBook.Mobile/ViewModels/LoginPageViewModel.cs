@@ -17,36 +17,53 @@ namespace GradeBook.Mobile.ViewModels
     {
 
         private readonly ReactiveCommand<Unit, Unit> loginCommand;
-        private readonly ReactiveCommand<Unit, Unit> resetCommand;
+        private ReactiveCommand<Unit, Unit> resetCommand;
 
         public LoginPageViewModel()
         {
-            var canLogin = this.WhenAnyValue(
+
+            this.WhenAnyValue(
                  x => x.UserName,
                  x => x.Password,
-                (userName, password) => !String.IsNullOrWhiteSpace(userName) && !String.IsNullOrWhiteSpace(password)
-            && userName.Length >= 3 && password.Length >= 8);
+                (userName, password) => !string.IsNullOrEmpty(userName) && password.Length > 5)
+                .ToProperty(this, v => v.IsValid, out isValid);
+
+
+            var canExecuteLogin = this.WhenAnyValue(x => x.IsLoading, x => x.IsValid,
+                (isLoading, IsValid) => !isLoading && IsValid);
 
             // check if the user exist and navigate 
             loginCommand = ReactiveCommand.CreateFromTask(async (arg) =>
             {
-                await Task.Delay(4000).ConfigureAwait(false);
-            }, canLogin);
+                await Task.Delay(1000);
+            }, canExecuteLogin);
 
-            loginCommand.IsExecuting.ToProperty(this, x => x.IsLoading, out _isLoading);
+            loginCommand.IsExecuting.ToProperty(this, x => x.IsLoading, out isLoading);
 
             this.resetCommand = ReactiveCommand.Create(() =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
                 {
                     this.UserName = null;
                     this.Password = null;
                 });
-            
+            });
+
+            this.WhenAnyObservable(x => x.loginCommand.IsExecuting)
+                .StartWith(false)
+                .ToProperty(this, x => x.IsLoading, out isLoading);
         }
 
-        readonly ObservableAsPropertyHelper<bool> _isLoading;
+        readonly ObservableAsPropertyHelper<bool> isLoading;
         public bool IsLoading
         {
-            get { return _isLoading.Value; }
+            get { return isLoading?.Value ?? false; }
+        }
+
+        readonly ObservableAsPropertyHelper<bool> isValid;
+        public bool IsValid
+        {
+            get { return isValid?.Value ?? false; }
         }
 
 
@@ -66,13 +83,5 @@ namespace GradeBook.Mobile.ViewModels
             get { return password; }
             set { this.RaiseAndSetIfChanged(ref password, value); }
         }
-
-        private bool areCredentialsInvalid;
-        public bool AreCredentialsInvalid
-        {
-            get { return areCredentialsInvalid; }
-            set { this.RaiseAndSetIfChanged(ref areCredentialsInvalid, value); }
-        }
-
     }
 }
