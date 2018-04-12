@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GradeBook.Mobile.Views.AddTeacherPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="FormLabelStyle"
+                TargetType="{x:Type Label}">
+                <Setter Property="FontSize"
+                    Value="{ StaticResource MediumSize}"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout BindingContext="{Binding Teacher}" Padding="10">
+                <Label Text="Add Teacher" FontSize="Large" HorizontalOptions="Center"/>
+
+                <Label Text="Tacher's first name" Style="{ StaticResource FormLabelStyle }"/>
+                <Entry x:Name="teachersFirstName" Placeholder="Vladislav" Text="{Binding Path=Teacher.FirstName}"/>
+                
+                <Label Text="Teacher's last name" Style="{ StaticResource FormLabelStyle }"/>
+                <Entry x:Name="teachersLastName" Placeholder="Vladimirov" Text="{Binding Path=Teacher.LastName}"/>
+                
+                <Label Text="Teacher's age" Style="{ StaticResource FormLabelStyle }"/>
+                <Entry x:Name="teachersAge" Placeholder="34" Text="{Binding Path=Teacher.Age}"/>
+                
+                <Label Text="Email" Style="{ StaticResource FormLabelStyle }"/>
+                <Entry x:Name="teachersEmail" Placeholder="email@something.com" Text="{Binding Path=Teacher.Email}"/>
+
+
+                <Grid Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Button Text="Add Teacher" Clicked="AddTeacherExec" Grid.Column="0" Grid.Row="0"/>
+                    <Button Text="Reset Form" Clicked="Reset" Grid.Column="1" Grid.Row="0"/>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
