@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GradeBook.Mobile.Views.AddStudentsPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="FormLabelStyle"
+                TargetType="{x:Type Label}">
+                <Setter Property="FontSize"
+                    Value="{ StaticResource MediumSize}"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="10">
+                <Label Text="Add Student" FontSize="Large" HorizontalOptions="Center"/>
+                <Label Text="Student first name" Style="{ StaticResource FormLabelStyle }"/>
+                <Entry x:Name="studentFirstName" Placeholder="Vladislav" Text=""/>
+                <Label Text="Student last name" Style="{ StaticResource FormLabelStyle }"/>
+                <Entry x:Name="studentLastName" Placeholder="Vladimirov" Text=""/>
+                <Label Text="Student age" Style="{ StaticResource FormLabelStyle }"/>
+                <Entry x:Name="studentAge" Placeholder="34" Text=""/>
+                <Label Text="Email" Style="{ StaticResource FormLabelStyle }"/>
+                <Entry x:Name="studentEmail" Placeholder="email@something.com" Text=""/>
+
+
+                <Grid Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Button Text="Add Teacher"  Grid.Column="0" Grid.Row="0"/>
+                    <Button Text="Reset Form" Grid.Column="1" Grid.Row="0"/>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
